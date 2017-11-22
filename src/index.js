@@ -2,27 +2,51 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+class Box extends React.Component{
+
+	selectBox = () => {
+		this.props.selectBox(this.props.row, this.props.col);
+	}
+
+
+	render()
+	{
+return(
+		<div className={this.props.boxClass} id={this.props.id} onClick={this.selectBox} /> 
+
+	);
+
+	}
+
+}
+
 class Grid extends React.Component {
 
 render()
 {
-	const width=this.props.cols *14;
+	const width=(this.props.cols *16);
 	const rowsArr=[];
 
 	var boxClass="";
 
 
-	for (var i=0; i<this.pros.rows; i++)
+	for (var i=0; i<this.props.rows; i++)
 	{
-		for (var j=0; j<this.pros.rows; j++)
+		for (var j=0; j<this.props.cols; j++)
 		{
 				let boxId=i +"_"+j;
 				boxClass=this.props.gridFull[i][j] ? "box on": "box off" ;
 				rowsArr.push(
 					<Box
-						boxClass={}
+						boxClass={boxClass}
+						key={boxId}
+						boxId={boxId}
+						row={i}
+						col={j}
+						selectBox={this.props.selectBox}
+						/>
 
-					)
+					);
 		}
 
 	}
@@ -30,8 +54,9 @@ render()
 
 return (
 
-	<div className="grid" style={{width:width}}	>]
-{{rowsArr}}
+	<div className="grid" style={{width:width}}	>
+{rowsArr}
+
 
 	</div>
 );
@@ -41,6 +66,11 @@ return (
 
 class Main extends React.Component {
 
+	componentDidMount()
+	{
+		this.seed();
+	}
+
 	constructor(){
 		super();
 		this.speed=100;
@@ -48,9 +78,32 @@ class Main extends React.Component {
 		this.cols=50;
 		this.state={
 			generation:0,
-			gridFull: Array(this.rows).fill(Array(this.cols).fill(false)
+			gridFull: Array(this.rows).fill(Array(this.cols).fill(false))
 		}
 
+	}
+
+	selectBox=(row,col)=> {
+
+		 let gridCopy=arrayClone(this.state.gridFull);
+		 gridCopy[row][col]=!gridCopy[row][col];
+		 this.setState({gridFull:gridCopy})
+
+	}
+
+
+	seed = () => {
+		let gridCopy = arrayClone(this.state.gridFull);
+		for (let i = 0; i < this.rows; i++) {
+			for (let j = 0; j < this.cols; j++) {
+				if (Math.floor(Math.random() * 4) === 1) {
+					gridCopy[i][j] = true;
+				}
+			}
+		}
+		this.setState({
+			gridFull: gridCopy
+		});
 	}
 
 render()
@@ -65,7 +118,7 @@ return (
 
 	<h1>The Game Of Life</h1>
 
-	<Grid gridFull={this.state.gridFull} rows={this.state.rows} cols={this.state.cols} />
+	<Grid gridFull={this.state.gridFull} rows={this.rows} cols={this.cols} selectBox={this.selectBox} />
 	<h2>Generations: {this.state.generation}</h2>
 
 
@@ -80,6 +133,11 @@ return (
 
 
 
+}
+
+function arrayClone(arr)
+{
+	return JSON.parse(JSON.stringify(arr));
 }
 
 
