@@ -1,5 +1,5 @@
 body {
-  background-image: url(http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/squares.png) 
+  background-color: white; 
 }
   
 .box {
@@ -38,7 +38,7 @@ body {
 }
   
 h1, h2, h3, h4 {
-  color: white;
+  color: blue;
   margin: auto;
   text-align: center;
   width: 50%;
@@ -47,4 +47,23 @@ h1, h2, h3, h4 {
 
 h4 {
   margin-top: 0px;
+}
+
+.btn-default {
+    color: white;
+    background-color: black;
+    border-color: #ccc;
+}
+
+.btn-default:hover {
+    color: #333;
+    background-color: blue;
+    border-color: #adadad;
+}
+
+
+.btn-default.active.focus, .btn-default.active:focus, .btn-default.active:hover, .btn-default:active.focus, .btn-default:active:focus, .btn-default:active:hover, .open>.dropdown-toggle.btn-default.focus, .open>.dropdown-toggle.btn-default:focus, .open>.dropdown-toggle.btn-default:hover {
+    color: #333;
+    background-color: red;
+    border-color: #8C8C91;
 }
